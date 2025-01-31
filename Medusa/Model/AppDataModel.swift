@@ -24,13 +24,13 @@ class AppDataModel: Identifiable{
     // MARK: - Properties
     
     // initalizing the object capture session for the app to keep track of all the photos.
-
+    
     var objectCaptureSession: ObjectCaptureSession? {
         willSet{
-            detachListeners()
+            //detachListeners()
         } didSet{
             guard objectCaptureSession != nil else { return }
-            attachListeners()
+            // attachListeners()
         }
     }
     
@@ -72,5 +72,8 @@ class AppDataModel: Identifiable{
     
     
     
+    
+}
+extension AppDataModel{
     
 }

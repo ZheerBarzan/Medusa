@@ -11,7 +11,9 @@ import SwiftUI
 struct MedusaApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LaunchScreen()
+                .environment(AppDataModel.instance)
+                .preferredColorScheme(.light)
         }
     }
 }

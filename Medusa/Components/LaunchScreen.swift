@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct LaunchScreen: View {
+    @Environment(AppDataModel.self) var appModel
     
     @State private var isActive = false
+    
     
     var body: some View {
         
         if isActive{
-            ContentView()
+            HomeScreenView()
         }else{
             
             ZStack{

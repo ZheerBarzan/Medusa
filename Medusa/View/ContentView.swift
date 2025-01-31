@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(AppDataModel.self) var appModel
     var body: some View {
-        VStack {
-           
-            Text("Hello, world!")
-        }
-        .padding()
+       PrimeryView()
+            .onAppear(perform:{
+                UIApplication.shared.isIdleTimerDisabled = true
+            })
+            .onDisappear(perform:{
+                UIApplication.shared.isIdleTimerDisabled = false
+            })
     }
 }
 
