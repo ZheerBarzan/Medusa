@@ -11,6 +11,12 @@ import Foundation
 class CaptureFolderManager{
     
     let captureFolder: URL
+    
+    let checkpointFolder: URL
+    
+    let imagesFolder: URL
+
+
 
     init(){
         
