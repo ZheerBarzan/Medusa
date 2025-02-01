@@ -64,9 +64,16 @@ class AppDataModel: Identifiable{
         case failed
     }
     
+    var state: ModelCaptureState = .notSet{
+        didSet{
+            performStateChange(from: oldValue, to: state)
+        }
+    }
     
+    var orbit: Orbit = .Orbit1
     
-    
+    private(set) var error: Swift.Error?
+
     
     
     
@@ -76,4 +83,54 @@ class AppDataModel: Identifiable{
 }
 extension AppDataModel{
     
+    
+    // MARK: - Functions
+    private func startNewCaptureSession() throws{
+    }
+    
+    private func startObjectReconstruction() throws{
+    }
+    private func switchToErrorState(error inError: Swift.Error){
+        state = .failed
+        error = inError
+    }
+    
+    private func resetCapture(){
+    }
+    
+    
+    // this function is used to change the state of the app from one state to another
+    private func performStateChange(from fromState: ModelCaptureState, to toState: ModelCaptureState){
+        if fromState == toState {return}
+        if toState == .failed { error = nil}
+        
+        switch toState{
+        case .ready:
+            do{
+                try startNewCaptureSession()
+            }catch{
+                state = .failed
+            }
+        case .prepareToReconstruct:
+            objectCaptureSession = nil
+            do{
+                try startObjectReconstruction()
+            }catch{
+                switchToErrorState(error: error)
+            }
+        case .restart, .completed:
+            resetCapture()
+        case .viewing:
+            photogrammetrySession = nil
+            removeCheckpoint()
+        case .failed:
+            // TODO: show error screen
+            state = .failed
+        default:
+            break
+        }
+    }
+    
+    private func removeCheckpoint(){
+    }
 }
