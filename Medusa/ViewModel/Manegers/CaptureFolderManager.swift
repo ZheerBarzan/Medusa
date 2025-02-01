@@ -10,4 +10,9 @@ import Foundation
 @Observable
 class CaptureFolderManager{
     
+    let captureFolder: URL
+
+    init(){
+        
+    }
 }
