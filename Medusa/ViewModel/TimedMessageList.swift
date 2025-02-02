@@ -10,7 +10,22 @@ import SwiftUI
 @Observable
 class TimedMessageList{
     
-    
+    struct Message: Identifiable{
+        let id = UUID()
+        let message: String
+        let startTime: Date
+        
+        fileprivate(set) var endTime: Date?
+        
+        init(msg: String, startTime inStartTime: Date = Date()){
+            message = msg
+            startTime = inStartTime
+            endTime = nil
+        }
+            
+            
+            
+    }
     
     
     func add(_ message: String){
