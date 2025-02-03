@@ -53,7 +53,6 @@ class TimedMessageList{
     init(){
     }
     
-    
     func add(_ message: String){
         dispatchPrecondition(condition: .onQueue(.main))
         
@@ -108,7 +107,6 @@ class TimedMessageList{
         }
     }
     
-    
     private func cullExpired(){
         dispatchPrecondition(condition: .onQueue(.main))
         
@@ -125,6 +123,4 @@ class TimedMessageList{
         cullExpired()
         setTimer()
     }
-    
-    
 }
