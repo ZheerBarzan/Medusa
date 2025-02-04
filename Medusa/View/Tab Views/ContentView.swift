@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @Environment(AppDataModel.self) var appModel
     var body: some View {
-       PrimeryView()
+       MainView()
             .onAppear(perform:{
                 UIApplication.shared.isIdleTimerDisabled = true
             })
