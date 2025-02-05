@@ -13,7 +13,11 @@ struct LibraryView: View {
     var body: some View {
         NavigationView{
             Text("Library")
+                .font(.system(.headline, design: .monospaced))
+                .foregroundColor(.black)
                 .navigationTitle("Library")
+                .font(.system(.headline, design: .monospaced))
+                .foregroundColor(.black)
         }
     }
 }

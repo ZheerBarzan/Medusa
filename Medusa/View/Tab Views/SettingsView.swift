@@ -13,7 +13,11 @@ struct SettingsView: View {
     var body: some View {
         NavigationView{
             Text("Settings")
+                .font(.system(.headline, design: .monospaced))
+                .foregroundColor(.black)
                 .navigationTitle("Settings")
+                .font(.system(.headline, design: .monospaced))
+                .foregroundColor(.black)
         }
     }
 }
