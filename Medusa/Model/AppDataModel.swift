@@ -367,7 +367,7 @@ extension AppDataModel{
         }
     }
     
-    private func onboardingState() -> OnBoardingFiniteStateMachine.OnboardingState?{
+     func onboardingState() -> OnboardingState?{
         // TODO - Implement onboarding
         
         return nil

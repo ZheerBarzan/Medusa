@@ -16,7 +16,7 @@ struct CaptureSurfaceView: View {
     
     @AppStorage("show_tutorial") var enableTutorial: Bool = true
     
-    @State private var captureModeGuidence: Bool = false
+    @State private var captureModeGuidance: Bool = false
     @State private var detectionFailed: Bool = false
     @State private var tutorialView : Bool = false
     @State private var deviceOrientation: UIDeviceOrientation = UIDevice.current.orientation
