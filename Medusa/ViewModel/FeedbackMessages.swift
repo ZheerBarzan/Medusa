@@ -8,7 +8,7 @@ import Foundation
 import RealityKit
 import SwiftUI
 
-
+// modify the strings
 final class FeedbackMessages{
     
     static func getFeedbackMessage(for feedback: ObjectCaptureSession.Feedback, captureMode: AppDataModel.CaptureMode) -> String? {

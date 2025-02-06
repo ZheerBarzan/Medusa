@@ -54,7 +54,5 @@ private struct GradientBackground: View {
                 .frame(height: frameHeight)
         }.padding(.bottom, 30)
             .allowsHitTesting(false)
-        
     }
-    
 }
