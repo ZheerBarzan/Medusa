@@ -9,11 +9,13 @@ import SwiftUI
 
 @main
 struct MedusaApp: App {
+    @AppStorage("dark_mode") private var isDarkMode: Bool = false
+
     var body: some Scene {
         WindowGroup {
             LaunchScreen()
                 .environment(AppDataModel.instance)
-                .preferredColorScheme(.light)
+                .preferredColorScheme(isDarkMode ? .dark : .light)
         }
     }
 }

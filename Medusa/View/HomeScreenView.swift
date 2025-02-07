@@ -10,14 +10,14 @@ import SwiftUI
 @MainActor
 struct HomeScreenView: View {
     @Environment(AppDataModel.self) var appModel
-    
-    init() {
-           let tabBarAppearance = UITabBarAppearance()
-           tabBarAppearance.configureWithOpaqueBackground()
-           tabBarAppearance.backgroundColor = UIColor.black // Set the background color to black
-           UITabBar.appearance().standardAppearance = tabBarAppearance
-           UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-       }
+//    
+//    init() {
+//           let tabBarAppearance = UITabBarAppearance()
+//           tabBarAppearance.configureWithOpaqueBackground()
+//           tabBarAppearance.backgroundColor = UIColor.black // Set the background color to black
+//           UITabBar.appearance().standardAppearance = tabBarAppearance
+//           UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+//       }
     var body: some View {
         
       
