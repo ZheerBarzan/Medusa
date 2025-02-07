@@ -10,7 +10,7 @@ import Foundation
 @Observable
 class OnBoardingFiniteStateMachine {
     var currentState: OnboardingState
-        
+    
     init(_ state: OnboardingState = .firstSegment) {
         guard initalStates.contains(state) else {
             currentState = .firstSegment
@@ -50,25 +50,52 @@ class OnBoardingFiniteStateMachine {
         .thirdSegmentNeedsWork,
         .thirdSegmentComplete,
         .captureInAreaMode
-       ]
+    ]
     
     // State transitions based on the user input.
     private let transitions: [OnboardingState: [(inputs: [OnboardingUserInput], destination: OnboardingState)]] = [
-        .tooFewImages: [(inputs: [.continue(isFlippable: true), .continue(isFlippable: false)], destination: .firstSegment)], // too few images
-        .firstSegmentNeedsWork: [], // first segment needs work
-        .firstSegmentComplete: [], // first segment complete
-        .flipObject: [], // flip object
-        .flippingObjectNotRecommended: [], // flipping object not recommended
-        .captureFromLowerAngle: [], // capture from lower angle
-        .secondSegmentNeedsWork: [], // second segment needs work
-        .secondSegmentComplete: [], // second segment complete
-        .flipObjectASecondTime: [], // flip object a second time
-        .captureFromHigherAngle: [], // capture from higher angle
-        .thirdSegmentNeedsWork: [], // third segment needs work
-        .thirdSegmentComplete: [], // third segment complete
-        .captureInAreaMode: [], // capture in area mode
-            
-    ]// all states and their transitions
+        .tooFewImages: [(inputs: [.continue(isFlippable: true), .continue(isFlippable: false)], destination: .firstSegment)],
+    
+        .firstSegmentNeedsWork: [(inputs: [.continue(isFlippable: true), .continue(isFlippable: false)], destination: .firstSegment),
+                                     (inputs: [.skip(isFlippable: true)], destination: .flipObject),
+                                     (inputs: [.skip(isFlippable: false)], destination: .flippingObjectNotRecommended)],
+        
+        .firstSegmentComplete: [(inputs: [.finish], destination: .reconstruction),
+                                    (inputs: [.continue(isFlippable: true)], destination: .flipObject),
+                                    (inputs: [.continue(isFlippable: false)], destination: .flippingObjectNotRecommended)],
+        
+        .flipObject: [(inputs: [.continue(isFlippable: true), .continue(isFlippable: false)], destination: .secondSegment),
+                          (inputs: [.objectCannotBeFlipped], destination: .captureFromLowerAngle)],
+        
+        .flippingObjectNotRecommended: [(inputs: [.continue(isFlippable: true), .continue(isFlippable: false)], destination: .captureFromLowerAngle),
+                                            (inputs: [.flipObjectAnyway], destination: .flipObject)],
+        
+        .captureFromLowerAngle: [(inputs: [.finish], destination: .reconstruction),
+                                     (inputs: [.continue(isFlippable: true), .continue(isFlippable: false)],
+                                      destination: .additionalOrbitOnCurrentSegment)],
+        
+        .secondSegmentNeedsWork: [(inputs: [.continue(isFlippable: true), .continue(isFlippable: false)], destination: .dismiss),
+                                      (inputs: [.skip(isFlippable: true)], destination: .flipObjectASecondTime),
+                                      (inputs: [.skip(isFlippable: false)], destination: .captureFromHigherAngle)],
+        
+        .secondSegmentComplete: [(inputs: [.continue(isFlippable: true)], destination: .flipObjectASecondTime),
+                                     (inputs: [.continue(isFlippable: false)], destination: .captureFromHigherAngle)],
+        
+        .flipObjectASecondTime: [(inputs: [.finish], destination: .reconstruction),
+                                     (inputs: [.continue(isFlippable: true), .continue(isFlippable: false)], destination: .thirdSegment)],
+        
+        .captureFromHigherAngle: [(inputs: [.finish], destination: .reconstruction),
+                                      (inputs: [.continue(isFlippable: true), .continue(isFlippable: false)],
+                                       destination: .additionalOrbitOnCurrentSegment)],
+        
+        .thirdSegmentNeedsWork: [(inputs: [.finish], destination: .reconstruction),
+                                     (inputs: [.continue(isFlippable: true), .continue(isFlippable: false)], destination: .dismiss)],
+        
+        .thirdSegmentComplete: [(inputs: [.finish], destination: .reconstruction)],
+        
+        .captureInAreaMode: [(inputs: [.finish], destination: .reconstruction),
+                                 (inputs: [.saveDraft], destination: .dismiss)]
+    ]
     
     private func transitions(for state: OnboardingState) throws -> [(inputs: [OnboardingUserInput], destination: OnboardingState)]{
         guard let transitions = transitions[state] else {
@@ -79,26 +106,26 @@ class OnBoardingFiniteStateMachine {
 }
 
 enum OnboardingState: Equatable, Hashable {
-        case dismiss
-        case tooFewImages
-        case firstSegment
-        case firstSegmentNeedsWork
-        case firstSegmentComplete
-        case secondSegment
-        case secondSegmentNeedsWork
-        case secondSegmentComplete
-        case thirdSegment
-        case thirdSegmentNeedsWork
-        case thirdSegmentComplete
-        case flipObject
-        case flipObjectASecondTime
-        case flippingObjectNotRecommended
-        case captureFromLowerAngle
-        case captureFromHigherAngle
-        case reconstruction
-        case additionalOrbitOnCurrentSegment
-        case captureInAreaMode
-    }
+    case dismiss
+    case tooFewImages
+    case firstSegment
+    case firstSegmentNeedsWork
+    case firstSegmentComplete
+    case secondSegment
+    case secondSegmentNeedsWork
+    case secondSegmentComplete
+    case thirdSegment
+    case thirdSegmentNeedsWork
+    case thirdSegmentComplete
+    case flipObject
+    case flipObjectASecondTime
+    case flippingObjectNotRecommended
+    case captureFromLowerAngle
+    case captureFromHigherAngle
+    case reconstruction
+    case additionalOrbitOnCurrentSegment
+    case captureInAreaMode
+}
 enum OnboardingUserInput: Equatable {
     case `continue`(isFlippable: Bool)
     case skip(isFlippable: Bool)
