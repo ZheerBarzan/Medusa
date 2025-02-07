@@ -10,7 +10,7 @@ import SwiftUI
 struct GallaryView: View {
     @Environment(AppDataModel.self) var appModel
     @Binding var showCaptures: Bool
-    @State private var isFolderButton: Bool
+    @State  var isFolderButton: Bool
     
     
     var body: some View {

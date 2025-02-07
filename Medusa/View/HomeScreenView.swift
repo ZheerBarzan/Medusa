@@ -47,7 +47,7 @@ struct HomeScreenView: View {
                 
         }.padding(.top, 10)
         // Set background color
-        .accentColor(.white)
+            .accentColor(.accentColor)
     }
         
     

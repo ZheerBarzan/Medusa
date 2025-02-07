@@ -9,12 +9,11 @@ import SwiftUI
 
 struct LibraryView: View {
     @Environment(AppDataModel.self) var appModel
+    @State private var showCapture: Bool = true
 
     var body: some View {
         NavigationView{
-            Text("Library")
-                .font(.system(.headline, design: .monospaced))
-                .foregroundColor(.black)
+            GallaryView(showCaptures: $showCapture, isFolderButton: false)
                 .navigationTitle("Library")
                 .font(.system(.headline, design: .monospaced))
                 .foregroundColor(.black)

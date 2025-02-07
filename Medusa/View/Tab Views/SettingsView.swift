@@ -17,17 +17,24 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationView{
-            VStack{
+            VStack(alignment: .leading, spacing:20){
                 
                Toggle("Dark Mode", isOn: $isDarkMode)
+                    .padding()
+                    .background(Color.gray.opacity(0.4))
+                    .cornerRadius(10)
+                   
+               
+                Toggle("Show Tutorial", isOn: $enableTutorial)
+                    .padding()
+                    .background(Color.gray.opacity(0.4))
+                    .cornerRadius(10)
                 
                 Spacer()
-                
-                Toggle("Show Tutorial", isOn: $enableTutorial)
                     
 
                 
-            }
+            }.padding(20)
             .navigationTitle("Settings")
                 
         }
