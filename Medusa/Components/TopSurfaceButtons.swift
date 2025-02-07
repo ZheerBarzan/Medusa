@@ -81,7 +81,7 @@ private struct NextButton: View{
             }
         }
         .onChange(of: onBoardingView){
-            appModel.showOverlaysIfNeeded(to: onBoardingView)
+            appModel.setOverlaySheets(to: onBoardingView)
         }
         .task{
             for await userCompletedScanPass in session.userCompletedScanPassUpdates where userCompletedScanPass{
@@ -130,7 +130,7 @@ private struct CaptureFolderButton: View{
             GallaryView(showCaptures: $showCaptureFolder, isFolderButton: true)
         }
         .onChange(of: showCaptureFolder){
-            appModel.showOverlaysIfNeeded(to: showCaptureFolder)
+            appModel.setOverlaySheets(to: showCaptureFolder)
         }
     }
 }

@@ -146,7 +146,7 @@ class AppDataModel: Identifiable{
     }
     
     // show the overlays if needed when the user is pausing or resuming the app
-    func showOverlaysIfNeeded(to shown: Bool){
+    func setOverlaySheets(to shown: Bool){
         guard shown != showOverlays else { return }
         
         if shown{
