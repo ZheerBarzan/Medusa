@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@MainActor
 struct HomeScreenView: View {
     @Environment(AppDataModel.self) var appModel
 //    

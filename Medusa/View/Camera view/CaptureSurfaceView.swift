@@ -27,13 +27,12 @@ struct CaptureSurfaceView: View {
                 TutorialView(url: url, tutorialView: $tutorialView)
             }else{
                 VStack(spacing: 20){
-                    // TopSurfaceButtons(session: session, captureModeGuidence: $captureModeGuidence)
-                    
+                    TopSurfaceButtons( session: session, captureModeGuidance: captureModeGuidance)
                     Spacer()
                     
-                    // GuidenceBox(session: session, detectionFailed: detectionFailed)
+                    BoundingBoxGuidenceView(session: session, detectionFailed: detectionFailed)
                     
-                   // BottomSurfaceButtons(session: session,hasDetectionFailed: $hasDetectionFailed, showCaptureModeGuidance: $showCaptureModeGuidance,showTutorialView: $showTutorialView, rotationAngle: rotationAngle)
+                    BottomSurfaceButtons(session: session,detectionFailed: $detectionFailed, captureModeGuidence: $captureModeGuidance,TutorialView: $tutorialView, rotationAngle: rotationAngle)
                 }
                 .padding()
                 .padding(.horizontal,20)
