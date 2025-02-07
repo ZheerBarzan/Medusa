@@ -46,7 +46,8 @@ private struct CaptureCancelButton: View{
             
         }, label: {
             Text(LocalizedString.cancel)
-            // modifer
+                .modifier(VisualEffectRoundedCorner())
+            
         })
     }
     
@@ -70,7 +71,8 @@ private struct NextButton: View{
             onBoardingView = true
         }, label: {
             Text(appModel.captureMode == .object ? LocalizedString.next : LocalizedString.done)
-            // modifer
+                .modifier(VisualEffectRoundedCorner())
+          
         })
         .sheet(isPresented: $onBoardingView){
             if let onBoardingState = appModel.onboardingState(){
@@ -108,17 +110,79 @@ private struct NextButton: View{
 
 private struct CaptureFolderButton: View{
     @Environment(AppDataModel.self) var appModel
+    @State private var showCaptureFolder: Bool = false
     
     var body: some View{
-        Text("Folder")
+        Button(action: {
+            showCaptureFolder = true
+        }, label: {
+            Image(systemName: "folder")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 20, height: 20)
+                .foregroundColor(.white)
+                .padding(20)
+                .contentShape(.rect)
+        })
+        .padding(-20)
+        .sheet(isPresented: $showCaptureFolder) {
+            
+            GallaryView(showCaptures: $showCaptureFolder, isFolderButton: true)
+        }
+        .onChange(of: showCaptureFolder){
+            appModel.showOverlaysIfNeeded(to: showCaptureFolder)
+        }
     }
 }
 
 private struct CaptureModeGuidanceView: View{
     @Environment(AppDataModel.self) var appModel
-    
     var body: some View{
-        Text("Capture Mode Guidance")
+        Text(guidenceText)
+            .font(.subheadline)
+            .bold()
+            .padding(.all,6)
+            .foregroundColor(.white)
+            .background(.black)
+            .cornerRadius(10)
+    }
+    private var guidenceText: String{
+        switch appModel.captureMode{
+        case .scene:
+            return LocalizedString.sceneMode
+        case .object:
+            return LocalizedString.objectMode
+        }
+        
+    }
+    
+    private struct LocalizedString{
+        static let sceneMode = NSLocalizedString(
+            "Scene mode (Object Capture)",
+            bundle: Bundle.main,
+            value: "Scene mode",
+            comment: "Guidance text for the Scene mode in object capture.")
+        
+        static let objectMode = NSLocalizedString(
+            "Object mode (Object Capture)",
+            bundle: Bundle.main,
+            value: "Object mode",
+            comment: "Guidance text for the Object mode in object capture.")
+    }
+    
+}
+
+private struct VisualEffectRoundedCorner: ViewModifier {
+    func body (content: Content) -> some View {
+        content
+            .padding(16)
+            .font(.headline)
+            .bold()
+            .foregroundColor(.white)
+            .background(.ultraThinMaterial)
+            .environment(\.colorScheme, .dark)
+            .cornerRadius(15)
+            .multilineTextAlignment(.center)
     }
 }
 
