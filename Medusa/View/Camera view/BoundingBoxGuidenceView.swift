@@ -22,7 +22,7 @@ struct BoundingBoxGuidenceView: View {
             if let guidanceText{
                 Text(guidanceText)
                     .font(.callout)
-                    .bold()
+                   
                     .foregroundColor(.white)
                     .transition(.opacity)
                     .multilineTextAlignment(.center)

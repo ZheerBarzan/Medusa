@@ -8,7 +8,7 @@
 import SwiftUI
 import RealityKit
 
-struct BottomSurfaceButtons: View {
+struct BottomSurfaceButtons: View, SurfaceButtons {
     @Environment(AppDataModel.self) var appModel
     var session : ObjectCaptureSession
     @Binding var detectionFailed: Bool
@@ -18,7 +18,52 @@ struct BottomSurfaceButtons: View {
     var rotationAngle: Angle
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack(alignment: .center){
+            HStack{
+                switch session.state{
+                case .ready:
+                    HelpButton()
+                        .frame(width: 30)
+                case .detecting:
+                    ResetBoundingBoxButton(session: session)
+                default:
+                    NumOfImagesButton(session: session)
+                        .rotationEffect(rotationAngle)
+                        Spacer()
+                }
+            }
+            .frame(maxWidth: .infinity)
+            
+            if !CaptureStarted(state: session.state){
+                CaptureButton(session: session,
+                              detectionFailed: $detectionFailed,
+                              tutorialView: $TutorialView)
+                .frame(width: 200)
+            }
+            
+            HStack{
+                switch session.state{
+                    case .ready:
+                    if appModel.orbit == .Orbit1{
+                        CaptureModeButton(session: session, captureModeGuidence: $captureModeGuidence)
+                            .frame(width: 30)
+                        
+                    }
+                    case .detecting:
+                        AutoDetectionView(session: session)
+                    default:
+                    HStack{
+                        Spacer()
+                        AutoCaptureToggleButton(session: session)
+                        ManualShotButton(session: session)
+                    }
+                            
+                }
+            }
+            .frame(maxWidth: .infinity)
+            
+        }
+        .transition(.opacity)
     }
 }
 
@@ -28,7 +73,7 @@ private struct CaptureButton: View{
     @Environment(AppDataModel.self) var appModel
     var session: ObjectCaptureSession
     @Binding var detectionFailed: Bool
-    @Binding var captureModeGuidence: Bool
+    @Binding var tutorialView: Bool
     
     var body: some View{
         Button(action:{
@@ -41,7 +86,7 @@ private struct CaptureButton: View{
                 .padding(.vertical, 20)
                 .padding(.horizontal, 25)
                 .background(Color.blue)
-                .cornerRadius(15)
+                .clipShape(Capsule())
         })
     }
     
@@ -242,7 +287,7 @@ private struct CaptureModeButton: View {
                 }
             }
             .aspectRatio(contentMode: .fit)
-            .frame(width: 30)
+            .frame(width: 22)
             .foregroundStyle(.white)
             .padding(20)
             .contentShape(.rect)
@@ -285,8 +330,48 @@ private struct NumOfImagesButton: View{
     @Environment(\.colorScheme) private var colorScheme
     
     var body: some View{
-        Text("Number of Images")
-        
+        Button(action:{
+            withAnimation{
+                info = true
+            }
+        }, label: {
+            VStack(spacing: 8){
+                Image(systemName: "photo")
+                    .padding([.horizontal, .top], 4)
+                    .overlay(alignment: Alignment(horizontal: .trailing, vertical: .top)){
+                        if session.feedback.contains(.overCapturing){
+                            Image(systemName: "circle.fill")
+                                .foregroundColor(.red)
+                                .font(.caption2)
+                                
+                        }
+                    }
+                
+                Text(String(format: LocalizedString.numOfImages,
+                            session.numberOfShotsTaken,
+                            session.maximumNumberOfInputImages))
+                .font(.footnote)
+                .fontWidth(.condensed)
+                .fontDesign(.monospaced)
+                .bold()
+            }
+            .foregroundColor(.white)
+        })
+        .popover(isPresented: $info){
+            VStack(alignment: .leading, spacing: 20){
+                Label(LocalizedString.photoLimit, systemImage: "photo")
+                    .font(.headline)
+                Text(String(format: LocalizedString.createModelLimits,
+                            AppDataModel.minimumNumberOfImages,
+                            session.maximumNumberOfInputImages))
+                Text(String(format: LocalizedString.captureMore,
+                            session.maximumNumberOfInputImages))
+            }
+            .foregroundStyle(colorScheme == .light ? .black : .white)
+            .padding()
+            .frame(idealWidth: UIDevice.current.userInterfaceIdiom == .pad ? 300 : .infinity)
+            .presentationDetents([.fraction(0.3)])
+        }
     }
     
     struct LocalizedString {
@@ -317,8 +402,32 @@ private struct AutoCaptureToggleButton: View{
     var session: ObjectCaptureSession
     
     var body: some View{
-        
-        Text("Auto Capture")
+        Button(action: {
+            session.isAutoCaptureEnabled.toggle()
+        }, label: {
+            HStack(spacing: 5){
+                if session.isAutoCaptureEnabled{
+                    Image(systemName: "a.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15)
+                        .foregroundStyle(.black)
+                }else{
+                    Image(systemName: "circle.slash.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15)
+                        .foregroundStyle(.black)
+                }
+                Text("Auto")
+                    .font(.footnote)
+                    .foregroundStyle(.black)
+            }
+            .padding(.all, 5)
+            .background(.ultraThinMaterial)
+            .background(session.isAutoCaptureEnabled ? .white : .clear)
+            .cornerRadius(15)
+        })
     }
 }
 

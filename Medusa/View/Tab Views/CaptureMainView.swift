@@ -15,8 +15,9 @@ struct CaptureMainView: View {
     
     var body: some View {
         
-        VStack(spacing: 0){
+        
             ZStack{
+                
                 ObjectCaptureView(session: session, cameraFeedOverlay: { GradientBackground() })
                     .hideObjectReticle(appModel.captureMode == .scene)
                     .blur(radius: appModel.showOverlays ? 45 : 0)
@@ -30,8 +31,8 @@ struct CaptureMainView: View {
                 perform: {
                     UIApplication.shared.isIdleTimerDisabled = true
                 })
-        }.id(session.id)
-        
+
+            .id(session.id)
     }
 }
 
@@ -52,7 +53,9 @@ private struct GradientBackground: View {
             gradientBackgroundColor
                 .rotation3DEffect(Angle(degrees: 180), axis: (x: 1, y: 0, z: 0))
                 .frame(height: frameHeight)
-        }.padding(.bottom, 30)
+        }
+        .edgesIgnoringSafeArea(.all)
+       
             .allowsHitTesting(false)
     }
 }
