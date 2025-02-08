@@ -11,12 +11,7 @@ struct ReconstructionView: View {
     @Environment(AppDataModel.self) var appModel
        let outputFile: URL
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Reconstruction View")
     }
 }
 
-#Preview {
-    ReconstructionView(
-        outputFile: URL(fileURLWithPath: "")
-    )
-}

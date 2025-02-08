@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable
-class CaptureFolderManager{
+final class CaptureFolderManager: Sendable{
     
     //MARK: - Properties
     enum Error: Swift.Error {

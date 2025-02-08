@@ -125,16 +125,16 @@ class AppDataModel: Identifiable{
     
     // Clean up when this object is destroyed
     deinit {
-           NotificationCenter.default.removeObserver(self)
-           DispatchQueue.main.async {
-               self.detachListeners()
-           }
-       }
+        NotificationCenter.default.removeObserver(self)
+        DispatchQueue.main.async {
+            self.detachListeners()
+        }
+    }
     
     /*Once reconstruction and viewing are complete, this should be called to let the app know it can go back to the new capture view.
-      We explicitly DO NOT destroy the model here to avoid transition state errors. The splash screen will set up the
-      AppDataModel to a clean slate when it starts.
-      This can also be called after a cancelled or error reconstruction to go back to the start screen.*/
+     We explicitly DO NOT destroy the model here to avoid transition state errors. The splash screen will set up the
+     AppDataModel to a clean slate when it starts.
+     This can also be called after a cancelled or error reconstruction to go back to the start screen.*/
     func endCapture(){
         state = .completed
     }
@@ -367,28 +367,28 @@ extension AppDataModel{
         }
     }
     
-     func onboardingState() -> OnboardingState?{
+    func onboardingState() -> OnboardingState?{
         guard let session = objectCaptureSession else { return nil }
-         
-         switch captureMode{
-         case .object:
-             let orbitCompleted = session.userCompletedScanPass
-             var currentState = OnboardingState.tooFewImages
-             
-             if session.numberOfShotsTaken >= AppDataModel.minimumNumberOfImages{
-                 switch orbit{
-                 case .Orbit1:
-                     currentState = orbitCompleted ? .firstSegmentComplete : .firstSegmentNeedsWork
-                    case .Orbit2:
-                        currentState = orbitCompleted ? .secondSegmentComplete : .secondSegmentNeedsWork
-                    case .Orbit3:
-                        currentState = orbitCompleted ? .thirdSegmentComplete : .thirdSegmentNeedsWork
-                 }
-             }
-             return currentState
-             
-            case .scene:
-                return .captureInAreaMode
-         }
+        
+        switch captureMode{
+        case .object:
+            let orbitCompleted = session.userCompletedScanPass
+            var currentState = OnboardingState.tooFewImages
+            
+            if session.numberOfShotsTaken >= AppDataModel.minimumNumberOfImages{
+                switch orbit{
+                case .Orbit1:
+                    currentState = orbitCompleted ? .firstSegmentComplete : .firstSegmentNeedsWork
+                case .Orbit2:
+                    currentState = orbitCompleted ? .secondSegmentComplete : .secondSegmentNeedsWork
+                case .Orbit3:
+                    currentState = orbitCompleted ? .thirdSegmentComplete : .thirdSegmentNeedsWork
+                }
+            }
+            return currentState
+            
+        case .scene:
+            return .captureInAreaMode
+        }
     }
 }
