@@ -21,7 +21,6 @@ struct HomeScreenView: View {
     var body: some View {
         ZStack{
             TabView{
-    
                         LibraryView()
                             .tabItem {
                                 Image(systemName: "book")
