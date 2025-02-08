@@ -16,7 +16,7 @@ struct TutorialPageView: View {
         VStack(alignment: .leading){
             Text(pageName)
                 .foregroundColor(.primary)
-                .font(.title)
+                .font(.largeTitle)
                 .bold()
             Text(imageCaption)
                 .foregroundColor(.secondary)

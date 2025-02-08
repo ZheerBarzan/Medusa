@@ -143,7 +143,7 @@ private struct CaptureModeGuidanceView: View{
             .bold()
             .padding(.all,6)
             .foregroundColor(.white)
-            .background(.black)
+            .background(.black.opacity(0.7))
             .cornerRadius(10)
     }
     private var guidenceText: String{
@@ -175,7 +175,7 @@ private struct CaptureModeGuidanceView: View{
 private struct VisualEffectRoundedCorner: ViewModifier {
     func body (content: Content) -> some View {
         content
-            .padding(16)
+            .padding(10)
             .font(.headline)
             .bold()
             .foregroundColor(.white)

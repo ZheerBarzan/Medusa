@@ -14,16 +14,11 @@ struct FeedbackView: View {
             if let activeMessage = messageList.activeMessage{
                 Text("\(activeMessage.message)")
                     .font(.system(.headline, design: .monospaced))
-                    .foregroundColor(.black)
-                    .environment(\.colorScheme, .light)
+                    .foregroundColor(.white)
+                    .environment(\.colorScheme, .dark)
                     .transition(.opacity)
             }
         }
     }
 }
 
-#Preview {
-    FeedbackView(
-        messageList: TimedMessageList()
-    )
-}

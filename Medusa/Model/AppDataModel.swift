@@ -368,8 +368,27 @@ extension AppDataModel{
     }
     
      func onboardingState() -> OnboardingState?{
-        // TODO - Implement onboarding
-        
-        return nil
+        guard let session = objectCaptureSession else { return nil }
+         
+         switch captureMode{
+         case .object:
+             let orbitCompleted = session.userCompletedScanPass
+             var currentState = OnboardingState.tooFewImages
+             
+             if session.numberOfShotsTaken >= AppDataModel.minimumNumberOfImages{
+                 switch orbit{
+                 case .Orbit1:
+                     currentState = orbitCompleted ? .firstSegmentComplete : .firstSegmentNeedsWork
+                    case .Orbit2:
+                        currentState = orbitCompleted ? .secondSegmentComplete : .secondSegmentNeedsWork
+                    case .Orbit3:
+                        currentState = orbitCompleted ? .thirdSegmentComplete : .thirdSegmentNeedsWork
+                 }
+             }
+             return currentState
+             
+            case .scene:
+                return .captureInAreaMode
+         }
     }
 }

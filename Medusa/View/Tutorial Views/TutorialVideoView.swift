@@ -14,11 +14,11 @@ struct TutorialVideoView: View {
     
     @Environment(\.colorScheme) private var colorScheme
     var body: some View {
-        VStack{
+        VStack(spacing: 0){
             PlayerView(url: url, isInverted: (colorScheme == .light && inReview) ? true: false)
             
             if inReview{
-                Spacer(minLength: 25)
+                Spacer(minLength: 28)
             }
         }
         .foregroundColor(.white)

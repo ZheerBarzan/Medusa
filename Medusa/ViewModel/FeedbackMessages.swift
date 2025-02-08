@@ -16,46 +16,45 @@ final class FeedbackMessages{
         case .objectTooFar:
             if captureMode == .scene { return nil}
             return NSLocalizedString(
-            "Move closer to the object",
-            bundle: Bundle.main,
-            value: "Move closer to the object",
-            comment: "Feedback message to move closer to the object")
+                "Move Closer (Object Capture)",
+                bundle: Bundle.main,
+                value: "Move Closer",
+                comment: "Feedback message to move closer for object capture")
             
         case .objectTooClose:
             if captureMode == .scene { return nil}
             return NSLocalizedString(
-            "Move away from the object",
-            bundle: Bundle.main,
-            value: "Move away from the object",
-            comment: "Feedback message to move away from the object")
-            
+                "Move Farther Away (Object Capture)",
+                bundle: Bundle.main,
+                value: "Move Farther Away",
+                comment: "Feedback message to move back for object capture")
         case .environmentTooDark:
             return NSLocalizedString(
-            "The environment is too dark",
-            bundle: Bundle.main,
-            value: "The environment is too dark",
-            comment: "Feedback message for too dark environment")
-        
+                "More Light Required (Object Capture)",
+                bundle: Bundle.main,
+                value: "More Light Required",
+                comment: "Feedback message that shows the environment is too dark for capturing")
+            
         case .environmentLowLight:
             return NSLocalizedString(
-            "more light is needed",
-            bundle: Bundle.main,
-            value: "more light is needed",
-            comment: "Feedback message for low light environment")
+                "More Light Recommended (Object Capture)",
+                bundle: Bundle.main,
+                value: "More Light Recommended",
+                comment: "Feedback message to increase lighting for object capture")
             
         case .movingTooFast:
             return NSLocalizedString(
-            "Move slower",
-            bundle: Bundle.main,
-            value: "Move slower",
-            comment: "Feedback message to move slower")
+                "Move slower (Object Capture)",
+                bundle: Bundle.main,
+                value: "Move slower",
+                comment: "Feedback message to slow down for object capture")
             
         case .outOfFieldOfView:
             return NSLocalizedString(
-            "Object is out of view",
-            bundle: Bundle.main,
-            value: "Object is out of view",
-            comment: "Feedback message for object out of view")
+                "Aim at your object (Object Capture)",
+                bundle: Bundle.main,
+                value: "Aim at your object",
+                comment: "Feedback message to aim at your object for object capture")
             
         default: return nil
         }
