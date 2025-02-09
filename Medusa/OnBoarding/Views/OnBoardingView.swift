@@ -24,9 +24,9 @@ struct OnBoardingView: View {
             ZStack{
                 Color(colorScheme == .light ? .white : .black).ignoresSafeArea()
                 if let session = appModel.objectCaptureSession{
-                    OnBoardingTutorialView()
+                    OnBoardingTutorialView( session: session, onBoardingFSM: stateMachine, shotLocations: $shotLocations, viewSize: geometryReader.size)
                     
-                    OnBoardingButtonView()
+                    OnBoardingButtonView(session: session, onBoardingFSM: stateMachine, onBoardingView: $onBoardingView, shotLocation: $shotLocations)
                 }
                     
             }
